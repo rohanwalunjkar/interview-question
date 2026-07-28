@@ -325,11 +325,3 @@ It is typically used for node-level background services / agents that must run e
 **DaemonSet vs Deployment (common follow-up):** a Deployment runs a desired NUMBER of replicas placed anywhere the scheduler chooses, used for scalable applications. A DaemonSet runs ONE pod PER node, used for node-level agents. Use a Deployment for app workloads and a DaemonSet for per-node infrastructure services.
 
 ---
-
-## How to regenerate the PDF
-
-```powershell
-python generate_k8s_pdf.py
-```
-
-This produces `Interview-Questions.pdf` from the questions defined in `generate_k8s_pdf.py`.
