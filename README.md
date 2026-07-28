@@ -22,6 +22,7 @@
 - [Q14. What is Docker?](#q14-what-is-docker)
 - [Q15. What is Image Pull Policy in Kubernetes?](#q15-what-is-image-pull-policy-in-kubernetes)
 - [Q16. What is a Service in Kubernetes and what are its types?](#q16-what-is-a-service-in-kubernetes-and-what-are-its-types)
+- [Q17. What is a DaemonSet in Kubernetes?](#q17-what-is-a-daemonset-in-kubernetes)
 
 ---
 
@@ -302,6 +303,26 @@ A Service in Kubernetes is an abstraction that provides a stable, permanent netw
 How they relate: NodePort builds on ClusterIP, and LoadBalancer builds on NodePort - each type layers additional exposure on top of the previous one.
 
 Why use it: stable networking, automatic load balancing, service discovery via DNS, and decoupling clients from the changing set of pod IPs. For HTTP routing with paths/hosts, an Ingress is often used in front of a ClusterIP Service.
+
+## Q17. What is a DaemonSet in Kubernetes?
+
+A DaemonSet is a Kubernetes workload object that ensures a copy of a specific pod runs on ALL (or a selected subset of) nodes in the cluster. As nodes are added, the DaemonSet automatically schedules a pod onto them; as nodes are removed, those pods are garbage collected.
+
+It is typically used for node-level background services / agents that must run everywhere, such as:
+
+- Log collectors (Fluentd, Filebeat) gathering logs from every node
+- Monitoring agents (Prometheus Node Exporter, Datadog agent)
+- Networking components (CNI plugins, kube-proxy)
+- Storage daemons and security/scanning agents
+
+**Key characteristics:**
+
+- Runs exactly one pod per node (by default), not a set number of replicas
+- Automatically adds pods to new nodes and removes them from deleted nodes
+- Can target specific nodes using nodeSelector, node affinity, or tolerations
+- Tolerations let DaemonSet pods run even on tainted nodes (e.g., control-plane)
+
+**DaemonSet vs Deployment (common follow-up):** a Deployment runs a desired NUMBER of replicas placed anywhere the scheduler chooses, used for scalable applications. A DaemonSet runs ONE pod PER node, used for node-level agents. Use a Deployment for app workloads and a DaemonSet for per-node infrastructure services.
 
 ---
 
